@@ -5,6 +5,7 @@ import { MatchDetailView } from "./matches/MatchDetailView"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import { HeadToHeadView } from "./matches/HeadToHeadView"
+import { ReversalPrediction } from "./predictions/ReversalPrediction"
 
 interface MatchDetailProps {
   match: Match
@@ -13,7 +14,7 @@ interface MatchDetailProps {
 }
 
 const MatchDetail = ({ match, isOpen, onClose }: MatchDetailProps) => {
-  const [view, setView] = useState<'details' | 'h2h'>('details')
+  const [view, setView] = useState<'details' | 'h2h' | 'reversal'>('details')
   
   if (!match) return null
 
@@ -22,7 +23,7 @@ const MatchDetail = ({ match, isOpen, onClose }: MatchDetailProps) => {
       <DialogContent className="sm:max-w-[700px] bg-[#0a0f14] border-white/10">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold flex items-center justify-center">
-            Match Details
+            Mérkőzés Részletek
           </DialogTitle>
           <div className="flex justify-center mt-4 gap-2">
             <Button 
@@ -31,7 +32,7 @@ const MatchDetail = ({ match, isOpen, onClose }: MatchDetailProps) => {
               onClick={() => setView('details')}
               className={view === 'details' ? "bg-blue-500" : ""}
             >
-              Details
+              Részletek
             </Button>
             <Button 
               variant={view === 'h2h' ? "default" : "outline"}
@@ -39,15 +40,25 @@ const MatchDetail = ({ match, isOpen, onClose }: MatchDetailProps) => {
               onClick={() => setView('h2h')}
               className={view === 'h2h' ? "bg-blue-500" : ""}
             >
-              Head-to-Head
+              Egymás ellen
+            </Button>
+            <Button 
+              variant={view === 'reversal' ? "default" : "outline"}
+              size="sm"
+              onClick={() => setView('reversal')}
+              className={view === 'reversal' ? "bg-blue-500" : ""}
+            >
+              Fordítások
             </Button>
           </div>
         </DialogHeader>
         
         {view === 'details' ? (
           <MatchDetailView match={match} />
-        ) : (
+        ) : view === 'h2h' ? (
           <HeadToHeadView homeTeam={match.home_team} awayTeam={match.away_team} />
+        ) : (
+          <ReversalPrediction homeTeam={match.home_team} awayTeam={match.away_team} />
         )}
       </DialogContent>
     </Dialog>

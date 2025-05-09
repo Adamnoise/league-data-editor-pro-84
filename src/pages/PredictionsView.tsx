@@ -2,11 +2,11 @@
 import { memo, useState } from "react"
 import { useLeagueState } from "@/hooks/league"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MatchPredictionPanel } from "@/components/predictions/MatchPredictionPanel"
 import { Button } from "@/components/ui/button"
 import { RefreshCw, ArrowLeft } from "lucide-react"
 import { LeagueStats } from "@/components/stats/LeagueStats"
 import { calculateLeagueStatistics } from "@/utils/leagueStatistics"
+import { PredictionDashboard } from "@/components/predictions/PredictionDashboard"
 
 export const PredictionsView = memo(() => {
   const { 
@@ -30,10 +30,10 @@ export const PredictionsView = memo(() => {
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => navigate("leagues")} className="gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back
+            Vissza
           </Button>
           <h2 className="text-2xl font-bold text-white">
-            Match Predictions {selectedLeague ? `- ${selectedLeague.name}` : ''}
+            Mérkőzés Predikciók {selectedLeague ? `- ${selectedLeague.name}` : ''}
           </h2>
         </div>
         
@@ -50,33 +50,33 @@ export const PredictionsView = memo(() => {
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <MatchPredictionPanel matches={currentMatches} />
-          
-          <Card className="mt-6 bg-black/20 border-white/5">
-            <CardHeader>
-              <CardTitle className="text-white">Prediction Model Information</CardTitle>
-              <CardDescription>How the prediction system works</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-gray-300">
-                The match outcome predictor uses a multi-factor model that considers:
-              </p>
-              <ul className="list-disc pl-6 space-y-1 text-gray-400">
-                <li>Historical match results between the two teams</li>
-                <li>Recent form (last 5 matches) with recency weighting</li>
-                <li>Home advantage factor (1.2x boost to home team scoring)</li>
-                <li>Average goals scored and conceded by each team</li>
-                <li>League position and relative team strength</li>
-              </ul>
-              <p className="text-gray-300 mt-4">
-                Confidence level is calculated based on the amount of available data and the consistency of past results.
-              </p>
-            </CardContent>
-          </Card>
+          <PredictionDashboard matches={currentMatches} />
         </div>
         
         <div>
           <LeagueStats statistics={leagueStatistics} league={selectedLeague} />
+          
+          <Card className="mt-6 bg-black/20 border-white/5">
+            <CardHeader>
+              <CardTitle className="text-white">Predikciós Modell Információ</CardTitle>
+              <CardDescription>A predikciós rendszer működése</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-gray-300">
+                A mérkőzés-kimenetel előrejelző többfaktoros modellt használ, amely figyelembe veszi:
+              </p>
+              <ul className="list-disc pl-6 space-y-1 text-gray-400">
+                <li>Egymás elleni eredmények történelmi adatait</li>
+                <li>Aktuális forma (utolsó 5 mérkőzés) időbeli súlyozással</li>
+                <li>Hazai pálya előnyt (1.2x szorzó a hazai csapat gólszerzésére)</li>
+                <li>Átlagos rúgott és kapott gólokat csapatonként</li>
+                <li>Bajnoki helyezést és relatív csapaterőt</li>
+              </ul>
+              <p className="text-gray-300 mt-4">
+                A megbízhatósági szint az elérhető adatok mennyisége és a múltbeli eredmények konzisztenciája alapján kerül kiszámításra.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+
 import { memo } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { Match } from "@/types"
@@ -6,7 +7,7 @@ interface MatchesTableViewProps {
   matches: Match[]
   onRequestSort: (key: string) => void
   getSortIcon: (key: string) => JSX.Element
-  onMatchClick?: (match: Match) => void  // Added this prop to fix the error
+  onMatchClick?: (match: Match) => void
 }
 
 export const MatchesTableView = memo(({ matches, onRequestSort, getSortIcon, onMatchClick }: MatchesTableViewProps) => {
